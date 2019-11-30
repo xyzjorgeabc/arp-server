@@ -2,7 +2,7 @@ import { dbconn } from '../db/db';
 import { Request, Response } from 'express';
 import { keysToLC } from '../utils/utils';
 
-interface Albaran extends Object {
+interface AlbaranCompra extends Object {
   id: number;
   registros: any[];
 }
@@ -22,7 +22,7 @@ export function fetchAlbaranCompra(req: Request, res: Response, next: Function){
   }
   else if ( id === 'last' && !isNaN(idSerie)){
     const alb_q = dbconn.format('SELECT *, DATE_FORMAT(fecha, "%d-%m-%Y") as fecha FROM albaranes_compra WHERE id_serie = ? ORDER BY id DESC LIMIT 1;', [idSerie]);
-    let albaran: Albaran;
+    let albaran: AlbaranCompra;
     let registros: any[];
 
     dbconn.query(alb_q,
@@ -49,7 +49,7 @@ export function fetchAlbaranCompra(req: Request, res: Response, next: Function){
   else if (!isNaN(id) && !isNaN(idSerie)) {
     const alb_q = dbconn.format('SELECT *, DATE_FORMAT(fecha, "%d-%m-%Y") as fecha FROM albaranes_compra WHERE id_serie = ? AND id = ?;', [idSerie, id]);
     const reg_q = dbconn.format('SELECT * FROM registros_albaran_compra WHERE id_serie_albaran = ? AND id_albaran = ?;', [idSerie, id]);
-    let albaran: Albaran;
+    let albaran: AlbaranCompra;
     let registros: any[];
     dbconn.query(alb_q,
     function(err, result, fields){
@@ -65,7 +65,7 @@ export function fetchAlbaranCompra(req: Request, res: Response, next: Function){
 
     dbconn.query(reg_q,
     function(err, result, fields){
-      if(err || result.length === 0) res.status(404), res.send();
+      if(err) res.status(404), res.send();
       else {
         registros = keysToLC(result);
         if(albaran && registros){

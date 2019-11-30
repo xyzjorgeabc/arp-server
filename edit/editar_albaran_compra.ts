@@ -34,7 +34,7 @@ export function editarAlbaranCompra(req: Request, res: Response, next: Function)
     :id_metodo_pago, :descuento_general, null, null)
     ON DUPLICATE KEY UPDATE id_proveedor = values(id_proveedor), fecha = values(fecha),
     id_albaran_proveedor = values(id_albaran_proveedor), id_metodo_pago = values(id_metodo_pago),
-    descuento_general = values(descuento_general), id_serie_factura = values(id_serie_factura), id_factura = values(id_factura);`;
+    descuento_general = values(descuento_general);`;
 
   let reg_q = `INSERT INTO registros_albaran_compra VALUES (
     :n, :id_serie_albaran, :id_albaran, :id_articulo, :nombre_registro, :iva,
@@ -47,6 +47,8 @@ export function editarAlbaranCompra(req: Request, res: Response, next: Function)
   id_articulo = values(id_articulo), nombre_registro = values(nombre_registro), iva = values(iva),
   cantidad_master = values(cantidad_master), precio_coste = values(precio_coste), descuento = values(descuento),
   cantidad = values(cantidad)`;
+
+  let regs_del = dbconn.format('DELETE FROM registros_albaran_compra WHERE id_serie_albaran = ? AND id_albaran = ?;', [albaran.id_serie, albaran.id]);
 
   alb_q = repformat(alb_q, 'id_serie', albaran.id_serie);
   alb_q = repformat(alb_q, 'id', albaran.id);
@@ -97,11 +99,16 @@ export function editarAlbaranCompra(req: Request, res: Response, next: Function)
       regs_tmp += reg_tmp;
     }
     regs_tmp += reg_dp + ";";
-
-    dbconn.query(regs_tmp, function(err, result, fields){
+    dbconn.query(regs_del, function(err, result, fields){
       if(err) res.status(500), res.send();
-      else res.status(200), res.send();
+      else {
+        dbconn.query(regs_tmp, function(err, result, fields){
+          if(err) res.status(500), res.send();
+          else res.status(200), res.send();
+          
+        });
+      }
       
-    });
+    })
   }
 }

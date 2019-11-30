@@ -1,6 +1,9 @@
 import { Request, Response } from "express";
 import { fetchRouting } from './fetch/routing';
 import { editRouting } from './edit/routing';
+import { buscarRouting } from './buscar/routing';
+
+
 const cors = require('./test/cors');
 const bp = require('body-parser');
 const express = require('express');
@@ -32,5 +35,6 @@ function(req: Request, res: Response, next: Function){
 
 app.use('/fetch', fetchRouting),
 app.use('/editar', editRouting);
-
+app.use('/buscar', buscarRouting);
 app.listen(3000);
+console.log('listening ............................');

@@ -4,6 +4,7 @@ import {editarCategoria} from './editar_categoria';
 import {editarCliente} from './editar_cliente';
 import {editarProveedor} from './editar_proveedor';
 import {editarAlbaranCompra} from './editar_albaran_compra';
+import {editarFacturaCompra} from './editar_factura_compra';
 
 export const editRouting = Router();
 
@@ -12,3 +13,4 @@ editRouting.post('/categoria', editarCategoria);
 editRouting.post('/cliente', editarCliente);
 editRouting.post('/proveedor', editarProveedor);
 editRouting.post('/albaran_compra', editarAlbaranCompra);
+editRouting.post('/factura_compra', editarFacturaCompra);
