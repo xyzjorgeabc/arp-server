@@ -46,7 +46,7 @@ export function fetchFacturaVenta(req: Request, res: Response, next: Function){
   }
   else if (!isNaN(id) && !isNaN(idSerie)) {
     const fact_q = dbconn.format('SELECT *, DATE_FORMAT(fecha, "%d-%m-%Y") as fecha FROM facturas_venta WHERE id_serie = ? AND id = ?;', [idSerie, id]);
-    const alb_q = dbconn.format('SELECT * FROM albaranes_venta WHERE id_serie_factura = ? AND id_factura = ?;', [idSerie, id]);
+    const alb_q = dbconn.format('SELECT *, DATE_FORMAT(fecha, "%d-%m-%Y") as fecha FROM albaranes_venta WHERE id_serie_factura = ? AND id_factura = ?;', [idSerie, id]);
     
     let factura: Factura;
     let albaranes: any[];

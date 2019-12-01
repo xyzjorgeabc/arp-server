@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { fetchRouting } from './fetch/routing';
 import { editRouting } from './edit/routing';
 import { buscarRouting } from './buscar/routing';
+import { listarRouting } from "./listar/routing";
 
 
 const cors = require('./test/cors');
@@ -33,8 +34,9 @@ function(req: Request, res: Response, next: Function){
   }
 });
 
-app.use('/fetch', fetchRouting),
+app.use('/fetch', fetchRouting);
 app.use('/editar', editRouting);
 app.use('/buscar', buscarRouting);
+app.use('/listar', listarRouting);
 app.listen(3000);
 console.log('listening ............................');
