@@ -3,7 +3,7 @@ import { fetchRouting } from './fetch/routing';
 import { editRouting } from './edit/routing';
 import { buscarRouting } from './buscar/routing';
 import { listarRouting } from "./listar/routing";
-
+import { statsRouting } from './stats/routing';
 
 const cors = require('./test/cors');
 const bp = require('body-parser');
@@ -38,5 +38,6 @@ app.use('/fetch', fetchRouting);
 app.use('/editar', editRouting);
 app.use('/buscar', buscarRouting);
 app.use('/listar', listarRouting);
+app.use('/stats', statsRouting);
 app.listen(3000);
 console.log('listening ............................');
