@@ -20,3 +20,8 @@ function _keysToLC(o: {[key:string]: any}): {} {
     return c;
   }, {});
 }
+
+export function getMes(strFecha: string): number {
+  const tmp = strFecha.split('');
+  return +(tmp[3] + tmp[4]);
+}

@@ -15,34 +15,25 @@ export function statsTopProv(req: Request, res: Response, next: Function){
 
   dbconn.query(dbconn.format(top_prov_q, ["01-01-2019", "30-12-2019"]), function(err, result: Array<any>){
 
-    const provs:{[key:string]: any} = {};
+    if(err) res.status(500), res.send();
+    else if (result.length === 0) res.status(404), res.send();
+    else {
+      const provs:{[key:string]: any} = {};
 
-    for(let i = 0; i < result.length; i++) {
-
-      const prov:string = result[i].NOMBRE_PROV;
-
-      if(provs.hasOwnProperty(prov)){
+      for (let i = 0; i < result.length; i++) {
+  
+        const prov:string = result[i].NOMBRE_PROV;
+  
+        if(!provs.hasOwnProperty(prov)) provs[prov] = [];
         provs[prov].push(result[i]);
       }
-      else {
-        provs[prov] = [];
-        provs[prov].push(result[i]);
+      
+      for (const prov in provs) {
+        provs[prov] = provs[prov].reduce(function(sum: number, reg: any) {
+          return (sum + reg.PRECIO_COSTE * reg.CANTIDAD * ((100 - reg.DESCUENTO) / 100) * ((100 + reg.IVA) / 100 ) * ((100 - reg.DESC_GEN) / 100 ));
+        }, 0).toFixed(3);
       }
+      res.send(JSON.stringify(provs));
     }
-    
-    /*
-    const meses: Array<any> = [[], [], [], [], [], [], [], [], [], [], [], []];
-
-    meses.forEach(function(arr:Array<any>, ind: number, meses){
-      meses[ind] = +arr.reduce(function(sum: number, reg: any){
-        if(reg.N === null) return sum;
-        console.log(reg.DESC_GEN);
-        return (sum + reg.PRECIO_COSTE * reg.CANTIDAD * ((100 - reg.DESCUENTO) / 100) * ((100 + reg.IVA) / 100 ) * ((100 - reg.DESC_GEN) / 100 ));
-      }, 0).toFixed(3);
-    });
-    res.status(200);
-    res.send(JSON.stringify(meses));*/
-    res.send(JSON.stringify(provs));
   });
-
 }

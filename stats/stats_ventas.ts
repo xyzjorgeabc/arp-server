@@ -1,12 +1,12 @@
 import { dbconn } from '../db/db';
 import { Request, Response } from 'express';
-import { keysToLC, getMes } from '../utils/utils';
+import { getMes } from '../utils/utils';
 
-export function statsGastos(req: Request, res: Response, next: Function){
+export function statsVentas(req: Request, res: Response, next: Function){
 
   const gastos_q = `SELECT regs.*, DATE_FORMAT(albs.fecha, "%d-%m-%Y") as FECHA, albs.descuento_general as DESC_GEN
-  FROM registros_albaran_compra regs
-  RIGHT JOIN albaranes_compra as albs ON
+  FROM registros_albaran_venta regs
+  RIGHT JOIN albaranes_venta as albs ON
     albs.fecha between STR_TO_DATE(?, "%d-%m-%Y") AND STR_TO_DATE(?, "%d-%m-%Y") AND
     albs.id = regs.id_albaran AND albs.id_serie = regs.id_serie_albaran
     ORDER BY albs.fecha`;
