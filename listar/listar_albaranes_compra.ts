@@ -17,16 +17,16 @@ export function listarAlbaranCompra(req: Request, res: Response, next: Function)
   const idSerie = req.body.albaran_compra.id_serie;
 
   let albs_q = `
-  SELECT alb.id_serie, alb.id, DATE_FORMAT(alb.fecha, "%d-%m-%Y") AS fecha, alb.descuento_general, cli.nombre_comercial as nombre_comercial_cliente, met.nombre as nombre_metodo_pago,
+  SELECT alb.id_serie, alb.id, DATE_FORMAT(alb.fecha, "%d-%m-%Y") AS fecha, alb.descuento_general, prov.nombre as nombre_proveedor, met.nombre as nombre_metodo_pago,
   (SELECT ROUND(SUM( precio_coste * cantidad * ((100 - descuento) / 100) * ((100 + iva) / 100 ) ) * ((100 - alb.descuento_general) / 100), 2) AS regimporte
   FROM registros_albaran_compra reg WHERE reg.id_albaran = alb.id AND reg.id_serie_albaran = alb.id_serie) as importe
   FROM albaranes_compra alb
-  INNER JOIN clientes cli ON alb.id_cliente = cli.id INNER JOIN metodos_pago met ON alb.id_metodo_pago = met.id
+  INNER JOIN proveedores prov ON alb.id_proveedor = prov.id INNER JOIN metodos_pago met ON alb.id_metodo_pago = met.id
   WHERE alb.id_serie = ?;`;
 
   albs_q = dbconn.format(albs_q, [idSerie]);
-
   dbconn.query(albs_q, function(err, result: Array<MuestraAlbaranCompra>, fields){
+    console.log(err);
     if(err) res.status(500), res.send();
     else if (result.length === 0) res.status(404), res.send();
     else { 

@@ -27,13 +27,16 @@ export function fetchAlbaranCompra(req: Request, res: Response, next: Function){
 
     dbconn.query(alb_q,
     function(err, result, fields){
-      if(err || result.length === 0) res.status(404), res.send();
+
+      if(err) res.status(500), res.send();
+      else if(result.length === 0) res.status(404), res.send();
       else {
         albaran = keysToLC(result[0]);
-        const reg_q = dbconn.format('SELECT * FROM registros_albaran_compra WHERE id_serie_alabaran = ? and id_albaran = ?;', [idSerie, albaran.id]);
+        const reg_q = dbconn.format('SELECT * FROM registros_albaran_compra WHERE id_serie_albaran = ? and id_albaran = ?;', [idSerie, albaran.id]);
         dbconn.query(reg_q,
           function(err, result, fields){
-            if(err || result.length === 0) res.status(404), res.send();
+            if(err) res.status(500), res.send();
+            else if(result.length === 0) res.status(200), res.send(JSON.stringify(albaran));
             else {
               registros = keysToLC(result);
               if(albaran && registros){
