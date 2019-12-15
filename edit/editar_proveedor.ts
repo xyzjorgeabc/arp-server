@@ -40,7 +40,6 @@ export function editarProveedor(req: Request, res: Response, next: Function){
   prov_q = repformat(prov_q, 'email', proveedor.email);
   prov_q = repformat(prov_q, 'informacion_adicional', proveedor.informacion_adicional);
   prov_q = repformat(prov_q, 'email', proveedor.email);
-  console.log(prov_q);
   dbconn.query(prov_q, function(err, result, fields){
     if(err) res.status(500), res.send();
     else res.status(200), res.send();

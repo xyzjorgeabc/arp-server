@@ -47,7 +47,6 @@ export function editarFacturaCompra(req: Request, res: Response, next: Function)
   let albs_q = 'UPDATE albaranes_compra SET id_serie_factura = ?, id_factura = ? WHERE id_serie = ? AND id = ?;';
   
   dbconn.query(fact_q, function(err, result, fields){
-    console.log(err);
     if(err) res.status(500), res.send();
     else {
       if(albaranes.length === 0){
@@ -64,12 +63,8 @@ export function editarFacturaCompra(req: Request, res: Response, next: Function)
     }
 
     dbconn.query(albs_q_sum, function(err, result, fields){
-      console.log(err);
       if(err) res.status(500), res.send();
       else res.status(200), res.send();
     });
   }
-  console.log(fact_q);
-  console.log('\n\n\n');
-  console.log(albs_q_sum);
 }

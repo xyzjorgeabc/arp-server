@@ -53,7 +53,6 @@ export function editarCliente(req: Request, res: Response, next: Function){
   cli_q = repformat(cli_q, 'fecha_captacion', cliente.fecha_captacion);
   cli_q = repformat(cli_q, 'descuento', cliente.descuento)
   cli_q = repformat(cli_q, 'informacion_adicional', cliente.informacion_adicional);
-  console.log(cli_q);
   dbconn.query(cli_q, function(err, result, fields){
     if(err) res.status(500), res.send();
     else res.status(200), res.send();

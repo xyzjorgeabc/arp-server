@@ -26,7 +26,6 @@ export function listarAlbaranCompra(req: Request, res: Response, next: Function)
 
   albs_q = dbconn.format(albs_q, [idSerie]);
   dbconn.query(albs_q, function(err, result: Array<MuestraAlbaranCompra>, fields){
-    console.log(err);
     if(err) res.status(500), res.send();
     else if (result.length === 0) res.status(404), res.send();
     else { 

@@ -57,7 +57,7 @@ export function editarAlbaranVenta(req: Request, res: Response, next: Function){
   alb_q = repformat(alb_q, 'id_factura', 'null');
 
   dbconn.query(alb_q, function(err, result, fields){
-    if(err) console.log(err), res.status(500), res.send();
+    if(err) res.status(500), res.send();
     else {
       if(registros.length === 0){
         res.status(200);
@@ -96,10 +96,10 @@ export function editarAlbaranVenta(req: Request, res: Response, next: Function){
     }
     regs_tmp += reg_dp + ";";
     dbconn.query(regs_del, function(err, result, fields){
-      if(err) console.log(err), res.status(500), res.send();
+      if(err) res.status(500), res.send();
       else {
         dbconn.query(regs_tmp, function(err, result, fields){
-          if(err) console.log(err),res.status(500), res.send();
+          if(err) res.status(500), res.send();
           else res.status(200), res.send();
           
         });

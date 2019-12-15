@@ -23,7 +23,6 @@ export function buscarAlbaranesCompra(req: Request, res: Response, next: Functio
   const albs_q = dbconn.format(`SELECT *, DATE_FORMAT(fecha, "%d-%m-%Y") as fecha FROM albaranes_compra 
   WHERE id_serie = ? AND id_serie_factura IS NULL AND id_factura IS NULL AND fecha between STR_TO_DATE(?, "%d-%m-%Y") AND STR_TO_DATE(?, "%d-%m-%Y") 
   ORDER BY fecha DESC;`, [idSerie, fecha_desde, fecha_hasta]);
-  console.log(albs_q);
   dbconn.query(albs_q, function(err, result: AlbaranCompra[], fields){
     if(err) res.status(500), res.send();
     else if(result.length === 0) res.status(404), res.send();
