@@ -53,27 +53,25 @@ export function fetchFacturaVenta(req: Request, res: Response, next: Function){
 
     dbconn.query(fact_q,
     function(err, result, fields){
-      if(err || result.length === 0) res.status(404), res.send();
+      if(err) res.status(500), res.send();
+      else if(result.length === 0) res.status(404), res.send();
       else {
         factura = keysToLC(result[0]);
-        if(factura && albaranes){
-          factura.albaranes = albaranes;
-          res.send(JSON.stringify(factura));
+        dbconn.query(alb_q,
+          function(err, result, fields){
+            if(err) res.status(500), res.send();
+            else if (result.length === 0) {
+              factura.albaranes = [];
+              res.status(200);
+              res.send(JSON.stringify(factura));
+            }
+            else {
+              albaranes = keysToLC(result);
+              factura.albaranes = albaranes;
+              res.send(JSON.stringify(factura));
+            }
+          });
         }
-      }
     });
-
-    dbconn.query(alb_q,
-    function(err, result, fields){
-      if(err || result.length === 0) res.status(404), res.send();
-      else {
-        albaranes = keysToLC(result);
-        if(factura && albaranes){
-          factura.albaranes = albaranes;
-          res.send(JSON.stringify(factura));
-        }
-      }
-    });
-
   }
 }

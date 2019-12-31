@@ -108,7 +108,12 @@ export function editarAlbaranCompra(req: Request, res: Response, next: Function)
           
         });
       }
-      
     })
+  }
+  else {
+    dbconn.query(regs_del, function(err, result, fields){
+      if(err) res.status(500), res.send();
+      else res.status(200), res.send();
+    });
   }
 }
