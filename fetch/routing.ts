@@ -1,5 +1,5 @@
 import {Router} from 'express';
-import {fetchArticulo}  from './fetch_articulo';
+import {fetchArticulo} from './fetch_articulo';
 import {fetchProveedor} from './fetch_proveedor';
 import {fetchCategoria} from './fetch_categoria';
 import {fetchMetodoPago} from './fetch_metodo_pago';

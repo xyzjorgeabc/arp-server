@@ -1,6 +1,7 @@
 //import { Request, Response } from 'express';
 import passport from 'passport'
 import { dbconn } from '../db/db';
+import { Response } from 'express';
 
 const pp = require('passport');
 const ppLocal = require('passport-local').Strategy;
@@ -8,6 +9,12 @@ const ppJwt = require('passport-jwt').Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;
 const jwt = require('jsonwebtoken');
 const secret = 'QeThWmZq4t7w!z%C*F-JaNdRgUjXn2r5';
+
+export interface User {
+  user: string;
+  info: string;
+  iat: number;
+}
 
 function getToken(user: Object){
   return jwt.sign(user, secret);

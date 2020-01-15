@@ -4,6 +4,7 @@ import { editRouting } from './edit/routing';
 import { buscarRouting } from './buscar/routing';
 import { listarRouting } from "./listar/routing";
 import { statsRouting } from './stats/routing';
+import { handshakeRouting } from './handshake/routing';
 
 const cors = require('./test/cors');
 const bp = require('body-parser');
@@ -34,6 +35,7 @@ function(req: Request, res: Response, next: Function){
   }
 });
 
+app.use('/handshake', handshakeRouting);
 app.use('/fetch', fetchRouting);
 app.use('/editar', editRouting);
 app.use('/buscar', buscarRouting);
