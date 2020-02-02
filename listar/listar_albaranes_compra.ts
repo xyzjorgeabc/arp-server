@@ -28,7 +28,7 @@ export function listarAlbaranCompra(req: Request, res: Response, next: Function)
   dbconn.query(albs_q, function(err, result: Array<MuestraAlbaranCompra>, fields){
     if(err) res.status(500), res.send();
     else if (result.length === 0) res.status(404), res.send();
-    else { 
+    else {
       result.forEach(function(val){
         if (val.importe === null) val.importe = 0;
       });

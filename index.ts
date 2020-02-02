@@ -4,7 +4,9 @@ import { editRouting } from './edit/routing';
 import { buscarRouting } from './buscar/routing';
 import { listarRouting } from "./listar/routing";
 import { statsRouting } from './stats/routing';
+import { deleteRouting } from './delete/routing';
 import { handshakeRouting } from './handshake/routing';
+import { docGenRouting } from './document_generation/routing';
 
 const cors = require('./test/cors');
 const bp = require('body-parser');
@@ -17,7 +19,6 @@ app.use(cors);
 app.use(bp.urlencoded({ extended: false }));
 app.use(bp.json());
 app.use(function(req: Request, res: Response, next: Function){
-  console.dir(req.body);
   res.setHeader('Content-Type', 'application/json');
   next();
 });
@@ -41,5 +42,8 @@ app.use('/editar', editRouting);
 app.use('/buscar', buscarRouting);
 app.use('/listar', listarRouting);
 app.use('/stats', statsRouting);
+app.use('/delete', deleteRouting);
+app.use('/doc_gen', docGenRouting);
+
 app.listen(3000);
 console.log('listening ............................');

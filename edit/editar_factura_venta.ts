@@ -62,7 +62,4 @@ export function editarFacturaVenta(req: Request, res: Response, next: Function){
       else res.status(200), res.send();
     });
   }
-  console.log(fact_q);
-  console.log('\n');
-  console.log(albs_q_sum);
 }
